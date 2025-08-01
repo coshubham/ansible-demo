@@ -1,7 +1,7 @@
 ---
-- name: Install Nginx 
+- name: Install Nginx and cronjob 
   hosts: webservers
-  become: true
+  become: true # when we install nginx we need to use sudo so it will give permission to run as root
   tasks:
   
     # Install Nginx 
