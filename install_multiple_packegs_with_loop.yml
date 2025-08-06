@@ -1,0 +1,35 @@
+---
+- name: Install multiple packages with loop
+  hosts: all
+  become: true # when we install nginx we need to use sudo so it will give permission to run as root
+  
+  vars:
+   package_name: # This is a variable that can be used to define the package name if needed in the future
+    Ubuntu: apache2
+    Amazon: httpd
+
+  tasks:
+
+    - name: Install packages on Ubuntu
+      apt:
+       name: "{{ item }}"
+       state: present
+      with_items:
+        - nginx
+        - cronie
+        - apache2
+        - git
+        - nodejs
+      when: ansible_distribution == "Ubuntu"
+
+    - name: Install packages on Amazon Linux
+      dnf:
+       name: "{{ item }}"
+       state: present
+      with_items:
+        - nginx
+        - cronie
+        - httpd 
+        - git
+        - nodejs
+      when: ansible_distribution == "Amazon"

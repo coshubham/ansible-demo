@@ -1,48 +1,68 @@
 ---
 - name: Install Nginx and cronjob 
-  hosts: webservers
+  hosts: all
   become: true # when we install nginx we need to use sudo so it will give permission to run as root
-  tasks:
   
+  vars:
+   package_name: # This is a variable that can be used to define the package name if needed in the future
+    Ubuntu: apache2
+    Amazon: httpd
+
+  tasks:
+
+    - name: Printing the OS name
+      debug:
+        msg: "This is Yours OS is {{ ansible_distribution }}"
+
+    - name: Install apache webservers
+      dnf:
+       name: "{{ package_name['Amazon'] }}"
+       state: present
+      when: ansible_distribution == "Amazon" # using when condition to check the OS type it one type of conditional statement in ansible like if condition in python
+
+    - name: Install apache webservers Ubuntu
+      apt:
+       name: "{{ package_name['Ubuntu'] }}"
+       state: present
+      when: ansible_distribution == "Ubuntu"
+
+
     # Install Nginx 
     - name: Install Nginx
       dnf: 
         name: nginx
         state: present
+      when: ansible_distribution == "Amazon"
 
       # Install cronie
     - name: Install Cron job
       dnf: 
         name: cronie
         state: present
+      when: ansible_distribution == "Amazon"
+      
 
     - name: Ensure Nginx is started
       service:
         name: nginx
         state: started
         enabled: true
+      when: ansible_distribution == "Amazon"
+      
+# Install Nginx 
+    - name: Install Nginx
+      apt: 
+        name: nginx
+        state: present
+      when: ansible_distribution == "Ubuntu"
+
+      # Install cronie
+    - name: Install Cron job
+      apt: 
+        name: cronie
+        state: present
+      when: ansible_distribution == "Ubuntu"
 
 
+      
 
-# we Do not able to use yum show we use dnf to install it it was working good all time use dnf in yml not yum
-
-# ---
-# - name: Install Nginx with Python 3 support
-#   hosts: webservers
-#   become: true
-#   tasks:
-#     # Force Python 3 interpreter
-#     - name: Set Python 3 as default
-#       raw: |
-#         sudo yum install -y python3
-#         sudo ln -sf /usr/bin/python3 /usr/bin/python
-
-#     # Install Nginx using raw command (bypasses Python module requirement)
-#     - name: Install Nginx
-#       raw: sudo yum install -y nginx
-
-#     - name: Ensure Nginx is started
-#       service:
-#         name: nginx
-#         state: started
-#         enabled: true

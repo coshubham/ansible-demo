@@ -1,0 +1,69 @@
+---
+- name: Install Nginx and cronjob 
+  hosts: ubuntu
+  become: true # when we install nginx we need to use sudo so it will give permission to run as root
+  tasks:
+  
+    # Install Nginx 
+    - name: Install Nginx
+      apt: 
+        name: nginx
+        state: present
+
+      # Install cronie
+    - name: Install Cron job
+      apt: 
+        name: cronie
+        state: present
+
+
+
+
+
+# we Do not able to use yum show we use dnf to install it it was working good all time use dnf in yml not yum
+
+# ---
+# - name: Install Nginx with Python 3 support
+#   hosts: webservers
+#   become: true
+#   tasks:
+#     # Force Python 3 interpreter
+#     - name: Set Python 3 as default
+#       raw: |
+#         sudo yum install -y python3
+#         sudo ln -sf /usr/bin/python3 /usr/bin/python
+
+#     # Install Nginx using raw command (bypasses Python module requirement)
+#     - name: Install Nginx
+#       raw: sudo yum install -y nginx
+
+#     - name: Ensure Nginx is started
+#       service:
+#         name: nginx
+#         state: started
+#         enabled: true
+
+
+
+# we Do not able to use yum show we use dnf to install it it was working good all time use dnf in yml not yum
+
+# ---
+# - name: Install Nginx with Python 3 support
+#   hosts: webservers
+#   become: true
+#   tasks:
+#     # Force Python 3 interpreter
+#     - name: Set Python 3 as default
+#       raw: |
+#         sudo yum install -y python3
+#         sudo ln -sf /usr/bin/python3 /usr/bin/python
+
+#     # Install Nginx using raw command (bypasses Python module requirement)
+#     - name: Install Nginx
+#       raw: sudo yum install -y nginx
+
+#     - name: Ensure Nginx is started
+#       service:
+#         name: nginx
+#         state: started
+#         enabled: true
