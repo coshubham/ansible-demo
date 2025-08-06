@@ -67,3 +67,29 @@
 #         name: nginx
 #         state: started
 #         enabled: true
+
+for single command written on terminal 
+
+ansible all -m copy -a "src=inventory.ini dest=/ansible" -i inventory.ini
+
+ansible all -m package -a "name=httpd state=present" -i inventory.ini --become
+
+ansible all -m shell -a "sudo apt-get update" -i inventory.ini --become
+
+ ansible all -m command -a "mkdir ansible" -i inventory.ini
+
+  ansible all -m shell -a "mkdir ansible" -i inventory.ini
+
+  ansible all -m shell -a "ls -l" -i inventory.ini
+
+ ansible all -m shell -a "ps aux" -i inventory.ini
+
+ ansible all -m shell -a "uptime" -i inventory.ini
+
+ ansible all -m shell -a "echo 'Welcome this ansible test' > ansible.txt" -i inventory.ini
+
+ ansible all -m command -a "whoami" -i inventory.ini
+
+ ansible -all -m aommand -a "df -h" -i inventory.ini 
+
+At One time the one command will run and use shell
